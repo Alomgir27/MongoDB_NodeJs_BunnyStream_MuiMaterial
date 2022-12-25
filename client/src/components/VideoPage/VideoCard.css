@@ -1,0 +1,49 @@
+.channelDetails {
+  border-top: 1px solid #303030;
+  display: flex;
+  padding-top: 10px;
+  /* background-color: blueviolet; */
+  /* justify-content: space-between; */
+
+}
+.channelButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+  /* background-color: blueviolet; */
+}
+
+.channelDetails img {
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  margin-right: 20px;
+}
+
+.channelInformation {
+  width: 45vw;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.subscribeBtn {
+  background-color: #cc0000;
+  padding: 10px;
+  height: 30px;
+}
+
+.subscribeBtn:hover {
+  cursor: pointer;
+}
+
+.vidDescription {
+  width: 40vw;
+  margin-top: 25px;
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 800px) {
+  .mainCard iframe {
+    margin-left: -30px;
+  }
+}

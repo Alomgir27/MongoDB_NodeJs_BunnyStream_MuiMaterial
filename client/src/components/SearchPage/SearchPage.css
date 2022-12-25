@@ -1,0 +1,26 @@
+.searchPageBox {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  overflow-x: hidden;
+}
+
+.searchTiles {
+  display: block;
+  padding: 80px;
+}
+
+.divider {
+  display: flex;
+  margin-bottom: 20px;
+  margin-left: 50px;
+  color: #aaa;
+  border-bottom: 1px solid #303030;
+  width: 80vw;
+}
+
+@media only screen and (max-width: 1000px) {
+  .searchTiles {
+    padding-left: 0px;
+  }
+}

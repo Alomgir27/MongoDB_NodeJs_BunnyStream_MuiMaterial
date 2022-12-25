@@ -1,0 +1,23 @@
+.videoPageContainer {
+  width: 90vw;
+  display: flex;
+  justify-content: space-between;
+  padding: 100px 70px;
+  overflow-x: hidden;
+  /* background-color: limegreen; */
+}
+
+.sideVideos {
+  /* background-color: blueviolet; */
+  margin-right: 80px;
+}
+
+@media only screen and (max-width: 800px) {
+  .videoPageContainer {
+    flex-direction: column;
+  }
+
+  .sideVideos {
+    margin-top: 20px;
+  }
+}

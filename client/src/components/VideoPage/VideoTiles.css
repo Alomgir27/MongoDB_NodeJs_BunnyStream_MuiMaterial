@@ -1,0 +1,90 @@
+.sideContainer {
+  display: flex;
+  /* justify-content: space-between; */
+  /* background-color: blueviolet; */
+  margin-left: 30px;
+  width: 33vw;
+  /* border-bottom: 1px solid black; */
+  height: 100px;
+}
+
+.sideContainer:hover {
+  cursor: pointer;
+}
+
+.sideImage img {
+  width: 150px;
+  height: 80px;
+  margin-right: 25px;
+}
+
+.videoInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.videoInfo .vidIcons {
+  position: absolute;
+  z-index: 10;
+  flex-direction: column;
+  margin-top: 5px;
+  height: 250px;
+  display: none;
+  width: 200px;
+  /* display: block; */
+}
+
+.videoInfo .vidIcons {
+  overflow: hidden;
+  margin-left: -55px;
+  /* background-color: limegreen; */
+  width: 320px;
+  height: 70px;
+}
+
+.videoInfo .clockwork {
+  display: flex;
+  justify-content: flex-end;
+  overflow-x: hidden;
+  width: 25px;
+  margin-right: 75px;
+}
+
+.videoInfo .icon {
+  background-color: rgba(0, 0, 0, 0.582);
+  margin-bottom: 5px;
+  height: 25px;
+  width: 25px;
+}
+
+/* .thumbnail:hover > .vidIcons {
+  cursor: pointer;
+} */
+
+.videoInfo .dots {
+  justify-content: flex-end;
+  position: relative;
+  bottom: 150px;
+  left: 110px;
+}
+
+.sideContainer:hover > .videoInfo > .vidIcons {
+  cursor: pointer;
+  display: block;
+}
+
+@media only screen and (max-width: 800px) {
+  .sideContainer {
+    width: 100vw;
+    margin-left: -30px;
+  }
+
+  .videoInfo {
+    width: 500px;
+    /* background-color: limegreen; */
+  }
+
+  .vidTitle {
+    width: 500px;
+  }
+}
