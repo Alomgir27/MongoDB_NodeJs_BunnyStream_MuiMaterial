@@ -12,115 +12,40 @@ import { Button } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { Avatar } from '@mui/material';
+import YouTubeVids from "../YouTubeVids/YouTubeVids";
+
+import "../../App.css";
 
 
-
-
-export default function MyVideos(){
-    const theme = useTheme();
-    const [user, setUser] = useState(null);
-
-    const [videos, setVideos] = useState(null);
+export default function MyVideos(props){
+    const { userId } = props;
     
+    const [videos, setVideos] = useState([]);
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    
+    const navigate = useNavigate();
+    const theme = useTheme();
 
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("user"));
-        setUser(user);
-    }, [])
+        if(!userId) return;
+        (async () => {
+            setLoading(true);
+            const { data } = await axios.post("http://localhost:27017/api/videos/getVideosByUserId", {
+                userId: userId,
+                page: page,
+            });
+            setVideos(prev => [...prev, ...data.videos]);
+            setLoading(false);
+        })()
+    }, [userId, page])
 
-    const navigate = useNavigate();
+  
 
-    
+    if(!userId) return null;
 
-
-    return (
+    if(loading) return (
         <div>
-        <Box sx={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center', 
-            width: '100vw', 
-            backgroundColor: theme.palette.background.default }}>
-           <img src={require('../../assets/wallpaper.jpg')} 
-            style={{
-                width: '100%', 
-                height: '20rem',
-                objectFit: 'cover',
-            }} 
-           />
-            <Typography variant="div" sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'start',
-                justifyContent: 'start',
-                width: '100%',
-                backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
-                color: theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.grey[900],
-                padding: '1rem',
-                gap: '1rem',
-                top: '20rem',
-                left: '0',
-            }}>
-                <Avatar sx={{ width: '5rem', height: '5rem' }} alt={user?.name} src={user?.url} />
-                <Typography variant="div" sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'start',
-                    justifyContent: 'start',
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
-                    color: theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.grey[900],
-                    padding: '1rem',
-                    gap: '1rem',
-                }}>
-                    <Typography variant="h7" >
-                        {user?.name}
-                    </Typography>
-                    <Typography variant="h7">
-                        {user?.username}
-                    </Typography>
-                </Typography>
-                
-            </Typography>
-
-        {/* Create contain where have three button about, me media and collection and under have route  go there*/}
-        <Box sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'start',
-            width: '100%',
-            height: '100%',
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
-            padding: '1rem',
-            gap: '1rem',
-            color: theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.grey[900],
-            
-        }}>
-        
-            <Link to="/about" style={{ textDecoration: 'none' }}>
-                About
-            </Link>
-            <Link to="/about/myMedia" style={{ textDecoration: 'none' }}>
-                My Media
-            </Link>
-            <Link to="/about/myCollections" style={{ textDecoration: 'none' }}>
-                My Collections
-            </Link>
-        </Box>
-        </Box>
-
-        <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            width: '100%',
-            height: '100%',
-            backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100],
-            padding: '1rem',
-            gap: '1rem',
-            color: theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.grey[900],
-        }}>
             <Typography variant="h7"
                 sx={{
                     display: 'flex',
@@ -137,6 +62,37 @@ export default function MyVideos(){
                 }}
 
             >
+                Loading...
+            </Typography>
+        </div>
+    )
+    
+
+
+    return (
+        <>
+        <div>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            color: theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.grey[900],
+            margin: 'auto',
+        }}>
+            <Typography variant="h7"
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.grey[900],
+                    fontWeight: 'light',
+                    gap: '1rem',
+                    padding: '1rem',
+                    
+                }}
+
+            >
                 Start uploading your videos to get more views and likes
             </Typography>
            
@@ -147,7 +103,6 @@ export default function MyVideos(){
                 width: '12rem',
                 backgroundColor: 'green',
                 padding: '1rem',
-                gap: '1rem',
                 color: theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.grey[900],
             }}
             onClick={() => navigate('/upload')}
@@ -158,10 +113,26 @@ export default function MyVideos(){
                 </Typography>
             </ButtonBase>
         </div>
-            
-     
-          
     </div>
+    
+         <div className="formatting">
+           <YouTubeVids videos={videos} />
+        </div>
+     
+        {videos.length > 0 && videos.length % 100 === 0 && <ButtonBase sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            margin: 'auto',
+        }}
+        onClick={() => setPage(prev => prev + 1)}
+        >
+            <Typography variant="h7">
+                Load More
+            </Typography>
+        </ButtonBase>
+        }
+    </>
     )
 }
            

@@ -12,7 +12,6 @@ import MainPage from "./MainPage";
 import Upload from "../../pages/Upload"
 import MyVideos from "../About/MyVideos";
 import About from "../About/About";
-import MyCollections from "../About/MyCollections";
 import VideoPage from "../VideoPage/VideoPage";
 import SearchPage from "../SearchPage/SearchPage";
 import PrimarySearchAppBar from "../PrimarySearchAppBar/PrimarySearchAppBar";
@@ -20,6 +19,8 @@ import PrimarySearchAppBar from "../PrimarySearchAppBar/PrimarySearchAppBar";
 import Recommended from "../QueryPages/Recommended";
 import RecentlyAdded from "../QueryPages/RecentlyAdded";
 
+import Playlists from "../PlayList/PlayList";
+import PlayCollectionList from "../PlayList/PlayCollectionList";
 
 
 export default function App({ toggleTheme }) {
@@ -32,15 +33,16 @@ export default function App({ toggleTheme }) {
           <Route path="/" element={<MainPage  />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/upload/:id" element={<Upload />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/video/:videoId" element={<VideoPage />} />
           <Route path="/search/:searchText" element={<SearchPage />} />
           <Route path="/myvideos" element={<MyVideos />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/about/myMedia" element={<MyVideos />} />
-          <Route path="/about/myCollections" element={<MyCollections />} />
+          <Route path="/about/:text" element={<About />} />
           <Route path="/recommended" element={<Recommended />} />
           <Route path="/recently-added" element={<RecentlyAdded />} />
+          <Route path="/playlists" element={<Playlists />} />
+          <Route path="/playlist/:collectionId" element={<PlayCollectionList />} />
           <Route path="*" element={<div>404</div>} />
         </Routes>
       </Suspense>

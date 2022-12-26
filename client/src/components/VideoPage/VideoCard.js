@@ -8,6 +8,7 @@ import Subscriber from '../DetailVideoPage/Sections/Subscriber';
 import axios from "axios";
 import LikeDislikes from '../DetailVideoPage/Sections/LikeDislikes';
 import { useTheme } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 
 const VideoCard = ({  video, url, autoplay, thisVideoUser }) => {
@@ -16,6 +17,7 @@ const VideoCard = ({  video, url, autoplay, thisVideoUser }) => {
    const [user, setUser] = useState({});
    
     const theme = useTheme();
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -70,7 +72,8 @@ const VideoCard = ({  video, url, autoplay, thisVideoUser }) => {
              <img srcSet={user?.url} alt="" />
             <div className="channelName">
               <Typography variant="subtitle1"
-              sx={{ fontWeight: "bolder", mb: "5px", color: theme.palette.mode === "dark" ? "#FFFFFF" : "#000000" }}
+              sx={{ fontWeight: "bolder", mb: "5px", color: theme.palette.mode === "dark" ? "#FFFFFF" : "#000000", "&:hover": { cursor: "pointer" } }}
+              onClick={() => navigate(`/about/${thisVideoUser?.userId}&2`)}
               >{thisVideoUser?.name}</Typography>
               <Typography variant="subtitle2" sx={{ color: "#AAAAAA" }}>{thisVideoUser?.username}</Typography>
              
@@ -79,7 +82,7 @@ const VideoCard = ({  video, url, autoplay, thisVideoUser }) => {
           </div>
 
           <div className="channelButtons">
-            {[<LikeDislikes video videoId={video?.guid} userId={localStorage.getItem('user').userId}  />, <Subscriber userTo={thisVideoUser?.userId} userFrom={localStorage.getItem('user').userId} />]}
+            {[<LikeDislikes video videoId={video?.guid} userId={JSON.parse(localStorage.getItem('user')).userId}  />, <Subscriber userTo={thisVideoUser?.userId} userFrom={localStorage.getItem('user').userId} />]}
             </div>
         </div>
       </div>

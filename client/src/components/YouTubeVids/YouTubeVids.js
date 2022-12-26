@@ -15,18 +15,9 @@ const YouTubeVids = ({
   return (
     <div className="cardSpacing">
       {videos?.map((video, index) => (
-        <Link to={`/video/${video?.videoId}`}
-          key={index}
-          style={{
-              textDecoration: "none",
-              color: theme.palette.mode === "dark" ? theme.palette.grey[100] : theme.palette.grey[900],
-
-            }}
-        >
           <YouTubeCard
             videoObj={video}
           />
-        </Link>
       ))}
     </div>
   );

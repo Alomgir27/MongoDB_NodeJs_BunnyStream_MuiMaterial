@@ -141,6 +141,7 @@ const updateComment = (newComment) => {
     setCommentLists(CommentLists.concat(newComment))
 }
 
+
   if(loading){
     return <div>Loading...</div>;
   }

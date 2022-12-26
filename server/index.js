@@ -72,6 +72,7 @@ app.use('/api/subscribe', require('./routes/subscribe'));
 app.use('/api/comment', require('./routes/comment'));
 app.use('/api/like', require('./routes/like'));
 app.use('/api/images', require('./routes/image'));
+app.use('/api/playlists', require('./routes/playlist'));
 
 
 app.use('uploads', express.static('uploads'));

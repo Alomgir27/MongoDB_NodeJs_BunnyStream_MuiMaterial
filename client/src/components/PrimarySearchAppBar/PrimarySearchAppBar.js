@@ -155,7 +155,7 @@ const PrimarySearchAppBar = ({  clearVideoData, toggleTheme}) => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        <Link to="/about" style={{ textDecoration: "none" }}>
+        <Link to={`/about/${user?.userId}&1`} style={{ textDecoration: "none" }}>
           <Avatar 
           alt={user?.name} 
           src={user?.url}
@@ -165,7 +165,7 @@ const PrimarySearchAppBar = ({  clearVideoData, toggleTheme}) => {
           }}
            />
         </Link>
-        <Link to="/about" style={{ textDecoration: "none" }}>
+        <Link to={`/about/${user?.userId}&1`} style={{ textDecoration: "none" }}>
           <Typography
             variant="h6"
             noWrap
@@ -189,7 +189,7 @@ const PrimarySearchAppBar = ({  clearVideoData, toggleTheme}) => {
           marginRight: "1rem",
         }}/>
 
-        <Link to="/about/myMedia" style={{
+        <Link to={`/about/${user?.userId}&2`} style={{
           textDecoration: "none",
           display: "flex",
           color:  theme.palette.primary.main,

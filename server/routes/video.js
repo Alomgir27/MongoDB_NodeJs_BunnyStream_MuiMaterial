@@ -160,33 +160,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     
 });
 
-// //get video list from bunnyCDN
-// router.post('/getVideosBySearch', (req, res) => {
-//     // console.log(req.body.search);
-//     axios.get(`http://video.bunnycdn.com/library/${process.env.libraryId}/videos`, {
-//         params: {
-//             search: req.body.search,
-//             page: req.body.page,
-//             itemsPerPage: 100,
-//         },
-//         headers: {
-//             Accept: "application/json",
-//             "Content-Type": "application/json",
-//             AccessKey: process.env.ApiKey,
-//         }
-//     })
-//         .then((response) => {
-//             res.status(200).json({ success: true, videos: response.data })
-//         })
-//         .catch((error) => {
-//             console.error(error);
-//             return res.status(400).json({ success: false, error });
-//         });
-// })
 
-
-
-  
        
 // create collection of bunnyCDN videos
 
@@ -323,25 +297,6 @@ router.post('/getVideoByVideoId', (req, res) => {
 })
 
 router.post('/getRelatedVideos', (req, res) => {
-    // axios.get(`http://video.bunnycdn.com/library/${process.env.libraryId}/videos`, {
-    //     params: {
-    //         search: req.body.title,
-    //         page: req.body.page,
-    //         itemsPerPage: req.body.itemsPerPage,
-    //     },
-    //     headers: {
-    //         Accept: "application/json",
-    //         "Content-Type": "application/json",
-    //         AccessKey: process.env.ApiKey,
-    //     }
-    // })
-    //     .then((response) => {
-    //         res.status(200).json({ success: true, videos: response.data })
-    //     })
-    //     .catch((error) => {
-    //         console.error(error);
-    //         return res.status(400).json({ success: false, error });
-    //     }   );
     const { page, title } = req.body;
     const limit = 100;
     const skip = (page - 1) * limit;
@@ -353,6 +308,16 @@ router.post('/getRelatedVideos', (req, res) => {
    
 })
 
+router.post('/VideoByVideoId', (req, res) => {
+    const { videoId } = req.body;
+    console.log(videoId);
+    Video.findOne({ "videoId": videoId })
+        .exec((err, video) => {
+            if (err) return res.status(400).json({ success: false, err });
+            return res.status(200).json({ success: true, video });
+        })
+})
+
 router.post('/getUserByVideoId', (req, res) => {
     // console.log(req.body.videoId);
     Video.findOne({ "videoId": req.body.videoId })
@@ -360,6 +325,16 @@ router.post('/getUserByVideoId', (req, res) => {
             if (err) return res.status(400).json({ success: false, err });
             return res.status(200).json({ success: true, user: video });
         })
+})
+
+router.post('/getVideosByUserId', (req, res) => {
+    const { page, userId } = req.body;
+    const limit = 100;
+    const skip = (page - 1) * limit;
+    Video.find({ userId: userId }).skip(skip).limit(limit).exec((err, videos) => {
+        if (err) return res.status(400).json({ success: false, err });
+        res.status(200).json({ success: true, videos });
+    })
 })
 
 module.exports = router;

@@ -17,32 +17,19 @@ function LikeDislikes(props) {
     const [Dislikes, setDislikes] = useState(0)
     const [LikeAction, setLikeAction] = useState(null)
     const [DislikeAction, setDislikeAction] = useState(null)
-    const [user, setUser] = useState({});
     const [variable, setVariable] = useState({});
     let theme = useTheme();
-
-
-   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    if(user){
-      setUser(user);
-    }
-  }, []);
-  
-
-
-
 
    
 
     useEffect(() => {
         if (props.video) {
-            setVariable({ videoId: props.videoId, userId: user.userId })
+            setVariable({ videoId: props.videoId, userId: props.userId })
         } else {
-            setVariable({ commentId: props.commentId, userId: user.userId })
+            setVariable({ commentId: props.commentId, userId: props.userId })
             
         }
-    }, [props.videoId, user.userId, props.commentId, props.video])
+    }, [props.videoId, props.userId, props.commentId, props.video])
 
     
 
@@ -86,7 +73,7 @@ function LikeDislikes(props) {
                 }
             })
 
-    }, [])
+    }, [variable, props.userId])
 
 
     const onLike = () => {
@@ -209,7 +196,6 @@ function LikeDislikes(props) {
             <span key="comment-basic-like">
                 <Tooltip title="Like">
                     <Chip icon={LikeAction === 'liked' ? <ThumbUpAltIcon /> : <ThumbUpAltOutlinedIcon />} label={Likes} size="large" style={{ backgroundColor: theme.palette.mode === 'dark' ? '#000' : '#f2f2f2', color: theme.palette.mode === 'dark' ? '#fff' : '#000', marginLeft: '5px' }} onClick={onLike} />
-
                 </Tooltip>
             </span>
             <span key="comment-basic-dislike">

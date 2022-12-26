@@ -8,23 +8,25 @@ import axios from "axios";
 import { FormControlLabel, useTheme , Switch , FormLabel, FormGroup, FormControl, FormHelperText } from "@mui/material";
 import "./VideoTiles.css";
 import moment from "moment";
-
+import { useNavigate } from "react-router-dom";
 
 
 
 const VideoCard = (props) => {
   const { video, thisVideoUser} = props;
   const divRef = useRef(null);
-  console.log(video, thisVideoUser);
 
   const [isHovered, setIsHovered] = useState(false);
 
   const [videoObj, setVideoObj] = useState(null);
 
   const theme = useTheme();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
 
   useEffect(() => {
+    setLoading(true);
     (async () => {
       await axios.post("http://localhost:27017/api/videos/getVideoByVideoId", {
         videoId: video?.videoId,
@@ -37,6 +39,7 @@ const VideoCard = (props) => {
       console.log(err);
     })
   })();
+  setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -50,6 +53,10 @@ const VideoCard = (props) => {
     }
   }, [divRef]);
 
+  if(loading) {
+    <div></div>
+  }
+
   return (
     <div
     className="sideContainer"
@@ -60,20 +67,26 @@ const VideoCard = (props) => {
   >
     <div className="sideImage" >
       
-       <img srcSet={isHovered ? `https://vz-90b101f9-6fa.b-cdn.net/${videoObj?.guid}/preview.webp` : `https://vz-90b101f9-6fa.b-cdn.net/${videoObj?.guid}/${videoObj?.thumbnailFileName}`} alt="" />
+       <img srcSet={isHovered ? `https://vz-90b101f9-6fa.b-cdn.net/${videoObj?.guid}/preview.webp` : `https://vz-90b101f9-6fa.b-cdn.net/${videoObj?.guid}/${videoObj?.thumbnailFileName}`} 
+       alt="" 
+       name="videoThumbnail"
+       onClick={() => navigate(`/video/${videoObj?.guid}`)}
+       />
     </div>
 
-    <div className="videoInfo">
+    <div className="videoInfo"
+      onClick={() => navigate(`/about/${thisVideoUser?.userId}&2`)}
+    >
       <Typography
         variant="subtitle2"
-        sx={{ fontWeight: "bolder" }}
+        sx={{ fontWeight: "bolder" , color: theme.palette.mode === "dark" ? theme.palette.grey[100] : theme.palette.grey[900] }}
         className="vidTitle"
       >
         {video?.title?.length > 27 ? video?.title.substring(0, 27) + "..." : video?.title}
       </Typography>
       <Typography
         variant="subtitle2"
-        sx={{ color: "#AAAAAA", mb: "20px" }}
+        sx={{ color: theme.palette.mode === "dark" ? theme.palette.grey[100] : theme.palette.grey[900], fontSize: "80%", mb: "15px" }}
       >
         {thisVideoUser?.name}
       </Typography>
@@ -182,16 +195,7 @@ const VideoTiles = ({ guid,  videos, loadMore, totalItems, autoplay, setAutoplay
           
           
       {videos?.filter((video) => video?.videoId !== guid).map((video) => (
-        <Link to={`/video/${video?.videoId}`} 
-        style={{ 
-          textDecoration: "none",
-          color: theme.palette.mode === "dark" ? theme.palette.grey[100] : theme.palette.grey[900],
-
-        }}
-          key={video?.videoId}
-        >
           <VideoCard video={video} thisVideoUser={thisVideoUser}/>
-        </Link>
       ))}
       {videos?.length === totalItems ? null :
       <div onClick={loadMore}

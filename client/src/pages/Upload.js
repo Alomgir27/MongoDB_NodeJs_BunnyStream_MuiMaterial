@@ -18,7 +18,7 @@ import { Chip } from "@mui/material";
 import { MuiChipsInput } from 'mui-chips-input'
 import { TextareaAutosize } from "@mui/material";
 import SelectInput from "./SelectInput";
-
+import { useParams } from "react-router-dom";
 
  
 
@@ -29,6 +29,8 @@ export default function App() {
   const navigate = useNavigate();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+
+  const params = useParams();
 
   const [open2, setOpen2] = useState(false);
 
@@ -53,6 +55,11 @@ export default function App() {
     title: "",
     description: "",
   });
+
+  useEffect(() => {
+    if (!params.id) return;
+    setCollectionId(params.id);
+  }, [params.id]);
 
 
 
@@ -101,7 +108,8 @@ export default function App() {
                     description: "",
                 });
                 setChips([]);
-                navigate("/about/myMedia");
+                console.log(res.data);
+                navigate(`/about/${user?.userId}&1`);
             })
             .catch((err) => {
                 console.log(err);

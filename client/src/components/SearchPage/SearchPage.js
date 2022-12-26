@@ -54,7 +54,7 @@ const SearchPage = () => {
   }, [page, searchText]);
 
   return (
-  <div>
+      <div>
     <div className="searchPageBox">
       <div className="searchTiles">
         <div className="divider">
@@ -84,18 +84,10 @@ const SearchPage = () => {
           </Typography>
         </div>
         {videos?.map((video, index) => (
-          <Link to={`/video/${video?.videoId}`}
-            key={index}
-            style={{
-                textDecoration: "none",
-                color: theme.palette.mode === "dark" ? theme.palette.grey[100] : theme.palette.grey[900],
-              }}
-          >
             <YouTubeCard
               videoObj={video}
               isSearch={true}
             />
-        </Link>
            
         ))}
       </div>

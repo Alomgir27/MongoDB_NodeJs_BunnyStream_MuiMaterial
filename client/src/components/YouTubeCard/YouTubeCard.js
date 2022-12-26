@@ -7,6 +7,7 @@ import { useMediaQuery } from "react-responsive";
 import moment from "moment";
 import axios from "axios";
 import { useTheme } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import "./YouTubeCard.css";
 
@@ -20,6 +21,7 @@ const YouTubeCard = (props) => {
   const [user, setUser] = useState(null);
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setMounted(true);
@@ -33,8 +35,6 @@ const YouTubeCard = (props) => {
     (async () => {
       await axios.post("http://localhost:27017/api/videos/getVideoByVideoId", {
         videoId: videoObj?.videoId,
-        apiKey: videoObj?.apiKey,
-        libraryId: videoObj?.libraryId,
       })
       .then((res) => {
         setVideo(res?.data?.video);
@@ -144,19 +144,19 @@ const YouTubeCard = (props) => {
           <Typography
             variant="subtitle2"
             sx={{ 
-              fontWeight: "bolder", 
               fontSize: "12px",
               color: theme.palette.mode === "dark" ? "#fff" : "#000",
               padding: "2px 5px",
               fontWeight: "light",
-              
             }}
           >
             {getTimeStamp()}
           </Typography>
         </div>
 
-        <img srcSet={ isHovered ?  `https://vz-90b101f9-6fa.b-cdn.net/${video?.guid}/preview.webp` : `https://vz-90b101f9-6fa.b-cdn.net/${video?.guid}/${video?.thumbnailFileName}`} alt="" />
+        <img srcSet={ isHovered ?  `https://vz-90b101f9-6fa.b-cdn.net/${video?.guid}/preview.webp` : `https://vz-90b101f9-6fa.b-cdn.net/${video?.guid}/${video?.thumbnailFileName}`} 
+         onClick={() => navigate(`/video/${video?.guid}`)}
+        alt="" />
       </div>
 
       {!isSearch ? (
@@ -178,6 +178,7 @@ const YouTubeCard = (props) => {
                 mt: "10px", 
                 color: theme.palette.mode === "dark" ? "#848584" : "#8c8c8c",
               }}
+              onClick={() => navigate(`/about/${videoObj?.userId}&2`)}
             >
               {videoObj?.name}
             </Typography>
@@ -221,6 +222,8 @@ const YouTubeCard = (props) => {
             <Typography
               variant="subtitle2"
               sx={{ mt: "13px",  fontWeight: "light", fontSize: "14px", color: theme.palette.mode === "dark" ? "#848584" : "#8c8c8c", }}
+              onClick={() => navigate(`/about/${videoObj?.userId}&2`)}
+
             >
               {videoObj?.name}
             </Typography>

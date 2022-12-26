@@ -2,12 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 
 import PrimarySearchAppBar from "../PrimarySearchAppBar/PrimarySearchAppBar";
 import YouTubeVids from "../YouTubeVids/YouTubeVids";
-import SearchPage from "../SearchPage/SearchPage";
-import VideoPage from "../VideoPage/VideoPage";
 import axios from "axios";
 
 import ChipBar from "../ChipBar/ChipBar";
-
 
 
 

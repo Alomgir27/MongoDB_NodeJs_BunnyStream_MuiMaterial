@@ -93,7 +93,12 @@ const SideBar = ({ toggleTheme }) => {
   const [youtubeObj, setYoutubeObj] = useState([]);
   const navigate = useNavigate();
 
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+
+
   const theme = useTheme();
+
+
 
 
   const queryStr = "WorldCup";
@@ -119,6 +124,15 @@ const SideBar = ({ toggleTheme }) => {
 
     getYoutubeVidObject();
   }, [queryStr]);
+
+  useEffect(() => {
+    if (user) {
+      const user = JSON.parse(localStorage.getItem("user"));
+      setUser(user);
+    }
+  }, []);
+
+
 
   const objectSnippet = youtubeObj.map((obj) => {
     return obj.snippet;
@@ -161,11 +175,11 @@ const SideBar = ({ toggleTheme }) => {
     "Categories": "/categories",
     "Memberships": "/memberships",
     "Uploads Media": "/upload",
-    "My Media": "/my-media",
-    "Playlists": "/playlists",
+    "My Media": `/about/${user?.userId}&2`,
+    "Playlists": `/about/${user?.userId}&3`,
     "History": "/history",
     "Liked Videos": "/liked-videos",
-    "About": "/about",
+    "About": `/about/${user?.userId}&1`,
     "Terms": "/terms",
     "Subscriptions": "/subscriptions",
     "Send feedback": "/send-feedback",
@@ -233,7 +247,7 @@ const SideBar = ({ toggleTheme }) => {
         ))}
       </List>
       <Divider sx={{ backgroundColor: "#2c2c2c" }} />
-
+     {user && (
       <List>
         {menuOptions.slice(6, 9).map(([label, Icon], index) => (
           <div className="listItems2" key={index}  onClick={() => navigate(options[label])} >
@@ -244,6 +258,7 @@ const SideBar = ({ toggleTheme }) => {
           </div>
         ))}
       </List>
+      )}
       <Divider sx={{ backgroundColor: "#2c2c2c" }} />
       <Typography
         variant="subtitle2"
